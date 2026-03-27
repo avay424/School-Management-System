@@ -67,6 +67,9 @@ app.post("/login", async (req, res) => {
     res.json({ success: true, token,})
 
 });
+app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
 
 
 app.post("/set-role", async (req, res) => {

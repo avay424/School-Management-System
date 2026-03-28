@@ -17,7 +17,7 @@ import AddTeacher from "./components/AddTeacher";
 import UpdateTeacher from "./components/UpdateTeacher";
 import ViewTeacher from "./components/ViewTeacher";
 import StudentPage from "./components/StudentPage";
-import StudentDetails from "./components/StudentDetails";
+
 
 
 function App() {
@@ -91,11 +91,7 @@ const router = createBrowserRouter([
       path:"/student/:username",
       element:<StudentPage/>
     },
-    {
-      path:"/students/:username",
-      element:<StudentDetails/>
-    },
-
+    
     
   
 ]);

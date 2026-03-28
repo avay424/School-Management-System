@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, role }) => {
   const payload = JSON.parse(atob(token.split(".")[1]));
 
   if (role && payload.role !== role) {
-    alert("You are not an user please login first")
+    alert("Login To Continue")
     return <Navigate to="/" />;
   }
 

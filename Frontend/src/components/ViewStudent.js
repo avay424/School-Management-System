@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-const ViewStudents = () => {
-  const navigate=useNavigate();
+
+const ViewStudent= () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [search, setSearch] = useState("");
 
-  
   useEffect(() => {
     const fetchStudents = async () => {
       const res = await fetch("http://localhost:5000/all-students");
@@ -19,41 +19,72 @@ const ViewStudents = () => {
     fetchStudents();
   }, []);
 
-
   const filteredStudents = students.filter((s) =>
     s.name.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
-    <div className="p-6">
+    <div className="min-h-screen bg-gray-100 p-6">
 
-      <h1 className="text-2xl font-bold mb-4">All Students</h1>
+      {/* TITLE */}
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">
+        All Students
+      </h1>
 
-
+      {/* SEARCH */}
       <input
         placeholder="Search by name"
-        className="border px-3 py-2 mb-4 w-full md:w-1/3"
+        className="border border-gray-300 px-4 py-2 mb-6 w-full md:w-1/3 rounded-lg 
+                   focus:outline-none focus:ring-2 focus:ring-blue-500"
         onChange={(e) => setSearch(e.target.value)}
       />
 
+      {/* HEADER ROW (like table) */}
+      <div className="grid grid-cols-5 bg-blue-600 text-white font-semibold p-3 rounded-t-lg">
+        <div>Username</div>
+        <div>Name</div>
+        <div>Email</div>
+        <div>Phone</div>
+        <div>Address</div>
+      </div>
 
-      <div className="grid gap-4">
+      {/* DATA */}
+      <div className="space-y-2">
+
         {filteredStudents.map((student) => (
           <div
             key={student.id}
-            onClick={() => navigate(`/students/${student.username}`)}
-            className="border p-4 rounded shadow bg-white"
+            onClick={() => navigate(`/student/${student.username}`)}
+            className="grid grid-cols-5 bg-white p-3 border border-gray-200 
+                       hover:bg-blue-50 hover:shadow-md transition cursor-pointer"
           >
-            <h2 className="font-bold">{student.name}</h2>
-            <p>Email: {student.email}</p>
-            <p>Phone: {student.phone}</p>
-            <p>Address: {student.address}</p>
+            <div className="font-medium text-gray-700">
+              {student.username}
+            </div>
+
+            <div className="text-gray-800">
+              {student.name}
+            </div>
+
+            <div className="text-gray-600">
+              {student.email}
+            </div>
+
+            <div className="text-gray-600">
+              {student.phone}
+            </div>
+
+            <div className="text-gray-600">
+              {student.address}
+            </div>
+
           </div>
         ))}
+
       </div>
 
     </div>
   );
 };
 
-export default ViewStudents;
+export default ViewStudent;

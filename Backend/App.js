@@ -15,59 +15,51 @@ app.use(express.json());
 const PORT = process.env.PORT;
 const SECRET = process.env.JWT_SECRET;
 
-// register
 
 app.post("/register", async (req, res) => {
-    const { username, password, role } = req.body
+  const { username, password, name, email, phone, address } = req.body;
+
+  try {
+    console.log("REGISTER API HIT");
 
 
-    const user = await pool.query(
-        "SELECT* FROM Users WHERE Username=$1",
-        [username],
+    const check = await pool.query(
+      "SELECT * FROM users WHERE username=$1",
+      [username]
     );
 
-    if (user.rows.length > 0) {
-        return res.json({ success: false, message: "user exists" })
-    };
+    if (check.rows.length > 0) {
+      return res.json({ success: false, message: "User already exists" });
+    }
 
-    const Hashed = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    await pool.query(
-        "INSERT INTO users (username,password,role) VALUES($1,$2,$3)",
-        [username, Hashed, "student"]
+    
+    const userInsert = await pool.query(
+      "INSERT INTO users (username, password, role) VALUES ($1,$2,$3) RETURNING *",
+      [username, hashedPassword, "student"]
     );
 
-    res.json({ success: true, message: "sucessfullyregsitered" });
+    console.log("USER INSERTED:", userInsert.rows[0]);
+
+  
+    // const studentInsert = await pool.query(
+    //   "INSERT INTO studentss (username, name, email, phone, address) VALUES ($1,$2,$3,$4,$5) RETURNING *",
+    //   [username, name, email, phone, address]
+    // );
+
+    // console.log("STUDENT INSERTED:", studentInsert.rows[0]);
+
+    res.json({
+      success: true,
+      message: "Registered successfully"
+    });
+
+  } catch (err) {
+    console.error("REGISTER ERROR:", err);
+    res.json({ success: false, message: "Server error" });
+  }
 });
-
-
-
-
-
-// app.post("/login", async (req, res) => {
-//     const { username, password } = req.body
-//     const result = await pool.query(
-//         "SELECT * FROM users WHERE username=$1",
-//         [username]
-//     );
-//     if (result.rows.length === 0) {
-//         return res.json({ success: false, message: "no users found" })
-//     }
-
-//     const user = result.rows[0];
-
-//     const match = await bcrypt.compare(password, user.password);
-//     if (!match) {
-//         return res.json({ success: false, message: "password is wrong" })
-//     };
-//     const token = jwt.sign(
-//         { id: user.id, role: user.role }, SECRET
-//     );
-
-//     res.json({ success: true, token,})
-
-// });
-
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -98,16 +90,7 @@ app.post("/login", async (req, res) => {
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
 });
-// app.get("/student/:username", async (req, res) => {
-//   const { username } = req.params;
 
-//   const result = await pool.query(
-//     "SELECT id, username, role FROM users WHERE username=$1",
-//     [username]
-//   );
-
-//   res.json(result.rows[0]);
-// });
 app.get("/student/:username", async (req, res) => {
   const { username } = req.params;
 
@@ -119,6 +102,26 @@ app.get("/student/:username", async (req, res) => {
 
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "No student data found" });
+    }
+
+    res.json(result.rows[0]);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+app.get("/teacher/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const result = await pool.query(
+      "SELECT * FROM teachers WHERE username=$1",
+      [username]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "No  teacher data found" });
     }
 
     res.json(result.rows[0]);
@@ -161,20 +164,7 @@ app.post("/add-student", async (req, res) => {
     const { username, name, email, phone, address } = req.body;
 
     const formattedName = name.trim().charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-        return res.json({
-            success: false,
-            message: "Invalid email format"
-        });
-    }
-    if (!/^\d{10}$/.test(phone)) {
-        return res.json({
-            success: false,
-            message: "Phone must be 10 digits"
-        });
-    }
+   
 
 
     const user = await pool.query(
@@ -209,40 +199,12 @@ if (result.role !== "student") {
 
     res.json({ success: true, message: "Student added" });
 });
-// app.post("/view-student", async (req, res) => {
 
-//     const { username } = req.body;
-//     const result = await pool.query(
-//         "SELECT * FROM studentss WHERE username=$1",
-//         [username]
-//     )
-//     if (result.rows.length === 0) {
-//         return res.json({ success: false, message: "no data found" })
-//     }
-//     res.json({
-//         success: true,
-//         student: result.rows[0]
-//     })
-
-// })
 app.post("/add-teacher", async (req, res) => {
     const { username, name, email, phone, address } = req.body;
 
     const formattedName = name.trim().charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-        return res.json({
-            success: false,
-            message: "Invalid email format"
-        });
-    }
-    if (!/^\d{10}$/.test(phone)) {
-        return res.json({
-            success: false,
-            message: "Phone must be 10 digits"
-        });
-    }
+   
 
 
     const user = await pool.query(
@@ -280,20 +242,7 @@ if (result.role !== "teacher") {
 app.post("/update-student", async (req, res) => {
     const { username, name, email, phone, address } = req.body;
     const formatteddName = name.trim().charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-        return res.json({
-            success: false,
-            message: "Invalid email format"
-        });
-    }
-    if (!/^\d{10}$/.test(phone)) {
-        return res.json({
-            success: false,
-            message: "Phone must be 10 digits"
-        });
-    }
+   
 
     const result = await pool.query(
         "SELECT * FROM studentss WHERE username=$1",
@@ -317,20 +266,7 @@ app.post("/update-student", async (req, res) => {
 app.post("/update-teacher", async (req, res) => {
     const { username, name, email, phone, address } = req.body;
     const formatteddName = name.trim().charAt(0).toUpperCase() + name.slice(1).toLowerCase();
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-        return res.json({
-            success: false,
-            message: "Invalid email format"
-        });
-    }
-    if (!/^\d{10}$/.test(phone)) {
-        return res.json({
-            success: false,
-            message: "Phone must be 10 digits"
-        });
-    }
+   
 
     const result = await pool.query(
         "SELECT * FROM teachers WHERE username=$1",
@@ -413,6 +349,45 @@ await pool.query(
 
 return res.json({success:true,message:"added teacher "})
 })
+
+app.post("/forget-password", async (req, res) => {
+  const { username, password, newpassword } = req.body;
+
+  try {
+    const result = await pool.query(
+      "SELECT * FROM users WHERE username=$1",
+      [username]
+    );
+
+    if (result.rows.length === 0) {
+      return res.json({ success: false, message: "No user found" });
+    }
+
+    const user = result.rows[0];
+
+
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      return res.json({ success: false, message: "Incorrect password" });
+    }
+
+
+    const hashedPassword = await bcrypt.hash(newpassword, 10);
+    await pool.query(
+      "UPDATE users SET password=$1 WHERE username=$2",
+      [hashedPassword, username]
+    );
+
+    res.json({ success: true, message: "Password updated successfully" });
+   
+
+  } catch (err) {
+    console.error(err);
+    res.json({ success: false, message: "Server error" });
+  }
+});
+
 
 
 

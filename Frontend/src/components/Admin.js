@@ -17,6 +17,39 @@ const Admin = () => {
     return msg.charAt(0).toUpperCase() + msg.slice(1);
   };
 
+  
+  const handleChange = (value) => {
+    setUserName(value);
+
+    if (!value.trim()) {
+      setErrors((prev) => ({
+        ...prev,
+        username: "username is required",
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        username: "",
+      }));
+    }
+  };
+
+  const handleRoleChange = (value) => {
+    setRole(value);
+
+    if (!value) {
+      setErrors((prev) => ({
+        ...prev,
+        role: "role is required",
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        role: "",
+      }));
+    }
+  };
+
   const changeRole = async () => {
     setErrors({});
 
@@ -51,165 +84,168 @@ const Admin = () => {
 
       if (msg.includes("no user") || msg.includes("not found")) {
         setErrors({ username: "No user found" });
-      } 
-      else {
+      } else {
         setErrors({ general: data.message });
       }
 
       return;
     }
 
-    
     alert("Role updated");
     navigate("/");
   };
 
   return (
-    <div>
+  <div className="h-screen overflow-hidden flex flex-col relative  bg-gradient-to-br from-[#cfe9f6] via-[#e6f4fb] to-[#f8fcff] ">
 
-      {/* TOP MENU */}
-      <div className="flex gap-6 p-4 bg-gradient-to-r from-blue-600 to-indigo-600">
 
-        {/* STUDENT */}
-        <div className="relative">
-          <button
-            onClick={() => {
-              setShowStudent(!showStudent);
-              setShowTeacher(false);
-            }}
-            className="bg-white/20 backdrop-blur-md text-white px-5 py-2 rounded-xl shadow-lg 
-                       hover:bg-white/30 hover:scale-105 transition duration-200 font-semibold"
-          >
-            🎓 Student
-          </button>
+    {/* BACKGROUND LAYERS */}
+    <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0
+      bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.9),transparent_60%)]" />
 
-          {showStudent && (
-            <div className="absolute mt-3 w-48 bg-white rounded-xl shadow-xl border p-2 flex flex-col gap-1">
+    <div className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0
+      bg-[radial-gradient(circle_at_50%_100%,rgba(255,255,255,0.7),transparent_60%)]" />
 
-              <button onClick={() => navigate("/add-student")} className="text-left px-3 py-2 hover:bg-blue-50">
-                ➕ Add Student
-              </button>
+    {/* NAVBAR (MAKE IT TOPMOST) */}
+    <div className="relative z-20 flex gap-6 px-6 h-16 items-center 
+  bg-blue-500">
+      {/* STUDENT */}
+      <div className="relative">
+        <button
+          onClick={() => {
+            setShowStudent(!showStudent);
+            setShowTeacher(false);
+          }}
+          className="bg-white/70 backdrop-blur-md text-gray-800 px-5 py-2 rounded-xl shadow-sm hover:bg-white transition duration-200 font-semibold"
+        >
+          🎓 Student
+        </button>
 
-              <button onClick={() => navigate("/update-student")} className="text-left px-3 py-2 hover:bg-blue-50">
-                ✏️ Update Student
-              </button>
-
-              <button onClick={() => navigate("/view-student")} className="text-left px-3 py-2 hover:bg-blue-50">
-                👁️ View Student
-              </button>
-
-            </div>
-          )}
-        </div>
-
-        {/* TEACHER */}
-        <div className="relative">
-          <button
-            onClick={() => {
-              setShowTeacher(!showTeacher);
-              setShowStudent(false);
-            }}
-            className="bg-white/20 backdrop-blur-md text-white px-5 py-2 rounded-xl shadow-lg 
-                       hover:bg-white/30 hover:scale-105 transition duration-200 font-semibold"
-          >
-            👨‍🏫 Teacher
-          </button>
-
-          {showTeacher && (
-            <div className="absolute mt-3 w-48 bg-white rounded-xl shadow-xl border p-2 flex flex-col gap-1">
-
-              <button onClick={() => navigate("/add-teacher")} className="text-left px-3 py-2 hover:bg-green-50">
-                ➕ Add Teacher
-              </button>
-
-              <button onClick={() => navigate("/update-teacher")} className="text-left px-3 py-2 hover:bg-green-50">
-                ✏️ Update Teacher
-              </button>
-
-              <button onClick={() => navigate("/view-teacher")} className="text-left px-3 py-2 hover:bg-green-50">
-                👁️ View Teacher
-              </button>
-
-            </div>
-          )}
-        </div>
-
+        {showStudent && (
+          <div className="absolute z-20 mt-3 w-48 bg-white/90 text-gray-800 rounded-xl shadow-lg border border-gray-200 p-2 flex flex-col gap-1">
+            <button onClick={() => navigate("/add-student")} className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">➕ Add Student</button>
+            <button onClick={() => navigate("/update-student")} className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">✏️ Update Student</button>
+            <button onClick={() => navigate("/view-student")} className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">👁️ View Student</button>
+          </div>
+        )}
       </div>
 
-      {/* FORM */}
-      <div className="h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-blue-500">
+      {/* TEACHER */}
+      <div className="relative">
+        <button
+          onClick={() => {
+            setShowTeacher(!showTeacher);
+            setShowStudent(false);
+          }}
+          className="bg-white/70 backdrop-blur-md text-gray-800 px-5 py-2 rounded-xl shadow-sm hover:bg-white transition duration-200 font-semibold"
+        >
+          👨‍🏫 Teacher
+        </button>
 
-        <div className="
-          bg-white/90 backdrop-blur-lg
-          p-4 sm:p-6 md:p-8
-          rounded-2xl
-          shadow-2xl
-          w-[90%] sm:w-[350px]
-          flex flex-col gap-3 sm:gap-4
-          border border-white/30
-        ">
-
-          <h2 className="text-xl sm:text-2xl font-bold text-center text-gray-800">
-            Admin Panel
-          </h2>
-
-          {/* Username */}
-          <div>
-            <input
-              className={`border px-3 py-2 rounded-lg w-full ${
-                errors.username ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Username"
-              onChange={(e) => setUserName(e.target.value)}
-            />
-
-            {errors.username && (
-              <p className="text-red-600 text-sm mt-1 bg-red-50 px-2 py-1 rounded-md border border-red-200">
-                {formatError(errors.username)}
-              </p>
-            )}
+        {showTeacher && (
+          <div className="absolute z-20 mt-3 w-48 bg-white/90 text-gray-800 rounded-xl shadow-lg border border-gray-200 p-2 flex flex-col gap-1">
+            <button onClick={() => navigate("/add-teacher")} className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">➕ Add Teacher</button>
+            <button onClick={() => navigate("/update-teacher")} className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">✏️ Update Teacher</button>
+            <button onClick={() => navigate("/view-teacher")} className="text-left px-3 py-2 hover:bg-gray-100 rounded-md">👁️ View Teacher</button>
           </div>
+        )}
+      </div>
+      <div className="ml-auto">
+  <button
+    onClick={() => navigate("/")}
+    className="px-4 py-2 rounded-lg
+    bg-white/80 backdrop-blur-md
+    text-gray-800 font-semibold
+    border border-white/40
+    shadow-sm
+    hover:bg-white transition duration-200"
+  >
+    ⬅ BACK
+  </button>
+</div>
+    </div>
 
-          {/* Role */}
+    <div className="relative z-10 flex-1 flex items-center justify-center px-4">
+
+      <div className="w-full max-w-md 
+    bg-gradient-to-br from-blue-100 to-blue-200 
+      rounded-3xl 
+      shadow-[0_20px_60px_rgba(0,0,0,0.15)] 
+      p-8 text-gray-800">
+
+        <h2 className="text-2xl font-semibold text-center mb-6">
+          Admin Panel
+        </h2>
+
+        <div className="space-y-4">
+
+        
           <div>
+            <label className="text-xs text-gray-600 uppercase">
+              Select Role
+            </label>
+
             <select
-              className={`border px-3 py-2 rounded-lg w-full ${
+              className={`mt-1 w-full px-4 py-2 rounded-lg bg-gray-100 border ${
                 errors.role ? "border-red-500" : "border-gray-300"
-              }`}
-              onChange={(e) => setRole(e.target.value)}
+              } focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              onChange={(e) => handleRoleChange(e.target.value)}
+              defaultValue=""
             >
+              <option value="" disabled>
+                Select Role
+              </option>
               <option value="student">Student</option>
               <option value="teacher">Teacher</option>
               <option value="admin">Admin</option>
             </select>
 
             {errors.role && (
-              <p className="text-red-600 text-sm mt-1 bg-red-50 px-2 py-1 rounded-md border border-red-200">
+              <p className="text-red-500 text-xs mt-1">
                 {formatError(errors.role)}
               </p>
             )}
           </div>
 
-          {/* General Error */}
+      
+          <div>
+            <input
+              className={`mt-1 w-full px-4 py-2 rounded-lg bg-gray-100 border ${
+                errors.username ? "border-red-500" : "border-gray-300"
+              } placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500`}
+              placeholder="Enter username"
+              onChange={(e) => handleChange(e.target.value)}
+            />
+
+            {errors.username && (
+              <p className="text-red-500 text-xs mt-1">
+                {formatError(errors.username)}
+              </p>
+            )}
+          </div>
+
+        
           {errors.general && (
-            <p className="text-red-600 text-sm text-center bg-red-50 px-3 py-2 rounded-md border border-red-200">
+            <p className="text-red-500 text-sm text-center">
               {formatError(errors.general)}
             </p>
           )}
 
+      
           <button
-            className="bg-indigo-600 text-white py-2 rounded-lg font-semibold 
-                       hover:bg-indigo-700 hover:scale-105 active:scale-95 
-                       transition duration-200 shadow-md"
+            className="w-full py-2 rounded-lg  bg-indigo-600 hover:bg-indigo-700 text-white hover:opacity-90 transition duration-200 font-medium"
             onClick={changeRole}
           >
             Change Role
           </button>
 
         </div>
+
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Admin;

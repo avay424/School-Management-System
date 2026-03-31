@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg">
+    <nav className="w-full bg-blue-500 shadow-lg">
 
   <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
 
@@ -11,7 +11,7 @@ const Navbar = () => {
       Welcome
     </h1>
 
-    <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-6">
+    {/* <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-6">
 
       <Link to="/student" className="relative text-white text-sm sm:text-base font-medium px-2 sm:px-3 py-1 transition duration-300 hover:text-yellow-300 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-300 after:transition-all after:duration-300 hover:after:w-full">
         Student
@@ -26,7 +26,7 @@ const Navbar = () => {
       </Link>
 
      
-    </div>
+    </div> */}
   </div>
 </nav>
   );

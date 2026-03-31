@@ -24,14 +24,26 @@ const ViewTeacher= () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-
-      {/* TITLE */}
+    <div className="min-h-screen  bg-gradient-to-br from-[#cfe9f6] via-[#e6f4fb] to-[#f8fcff] p-6">
+<div className="flex flex-row justify-between">
+  
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
-        All Teachers
+        All Students
       </h1>
-
-      {/* SEARCH */}
+      <button
+    onClick={() => navigate("/admin")}
+    className="px-4 py-2 rounded-lg
+    bg-white/80 backdrop-blur-md
+    text-gray-800 font-semibold
+    border border-white/40
+    shadow-sm
+    hover:bg-white transition duration-200"
+  >
+    ⬅ BACK
+  </button>
+      </div>
+    
+      
       <input
         placeholder="Search by name"
         className="border border-gray-300 px-4 py-2 mb-6 w-full md:w-1/3 rounded-lg 
@@ -39,7 +51,7 @@ const ViewTeacher= () => {
         onChange={(e) => setSearch(e.target.value)}
       />
 
-      {/* HEADER ROW (like table) */}
+  
       <div className="grid grid-cols-5 bg-blue-600 text-white font-semibold p-3 rounded-t-lg">
         <div>Username</div>
         <div>Name</div>
@@ -48,7 +60,7 @@ const ViewTeacher= () => {
         <div>Address</div>
       </div>
 
-      {/* DATA */}
+      
       <div className="space-y-2">
 
         {filteredTeachers.map((teacher) => (

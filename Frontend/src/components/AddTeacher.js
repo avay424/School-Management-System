@@ -37,14 +37,34 @@ const AddTeacher = () => {
 
   const handleChange = async (e) => {
     e.preventDefault();
+    setErrors({})
 
     let newErrors = {};
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    Object.keys(form).forEach((key) => {
-      if (!form[key] || form[key].trim() === "") {
-        newErrors[key] = `${key} is required`;
-      }
-    });
+
+    if(!form.username.trim()){
+      newErrors.username="username is required"
+    }
+    if(!form.name.trim()){
+      newErrors.name="name is required"
+    }
+    if(!form.email.trim()){
+      newErrors.email=" email is required"
+    }else if(!emailPattern.test(form.email)){
+      newErrors.email="Invalid email pattern"
+    }
+    if(!form.phone.trim()){
+      newErrors.phone="phone is required"
+    }else if(!/^\d{10}$/.test(form.phone)){
+      newErrors.phone="Number should be of 10 characters"
+    }
+    if(!form.address.trim()){
+      newErrors.address="address is required"
+    }
+    
+
+
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -70,25 +90,52 @@ const AddTeacher = () => {
   }
 
   return (
-    <div className='h-screen flex justify-center items-center bg-gray-100 px-4'>
+  <div className="h-screen overflow-hidden flex flex-col relative bg-gradient-to-br from-[#cfe9f6] via-[#e6f4fb] to-[#f8fcff]">
+<div className="ml-auto">
+  <button
+    onClick={() => navigate("/admin")}
+    className="px-4 py-2 rounded-lg
+    bg-white/80 backdrop-blur-md
+    text-gray-800 font-semibold
+    border border-white/40
+    shadow-sm
+    hover:bg-white transition duration-200"
+  >
+    ⬅ BACK
+  </button>
+</div>
+  
+    <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0
+      bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.9),transparent_60%)]" />
 
-      <div className='border bg-white p-6 rounded-xl shadow-xl w-full sm:w-[80%] md:w-[50%] lg:w-[30%]'>
+    <div className="absolute bottom-0 left-0 w-full h-full pointer-events-none z-0
+      bg-[radial-gradient(circle_at_50%_100%,rgba(255,255,255,0.7),transparent_60%)]" />
 
-        <h1 className='text-center font-bold text-2xl mb-6 text-gray-800'>
+
+    <div className="relative z-10 h-full flex items-center justify-center px-4">
+
+    
+      <div className="w-full sm:w-[80%] md:w-[50%] lg:w-[30%]
+       bg-gradient-to-br from-blue-100 to-blue-200 
+        p-8 rounded-3xl
+        shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
+
+        <h1 className="text-center font-bold text-2xl mb-6 text-gray-800">
           TEACHER INFORMATION
         </h1>
 
-        {/* USERNAME */}
-        <div className='flex flex-row gap-2 items-center mb-3'>
-          <h1 className='w-24 font-semibold text-gray-700'>Username :</h1>
+    
+        <div className="flex flex-row gap-2 items-center mb-3">
+          <h1 className="w-24 font-semibold text-gray-700">Username :</h1>
 
-          <div className='flex-1'>
+          <div className="flex-1">
             <input
               value={form.username}
               onChange={(e) => handleChangeInput("username", e.target.value)}
-              placeholder='username'
-              className='w-full border border-gray-300 rounded-lg px-3 py-2 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 transition'
+              placeholder="username"
+              className="w-full px-3 py-2 rounded-lg
+              bg-white/80 border border-gray-200
+              focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             {errors.username && (
               <p className="text-red-500 text-sm mt-1">{errors.username}</p>
@@ -96,17 +143,18 @@ const AddTeacher = () => {
           </div>
         </div>
 
-        {/* NAME */}
-        <div className='flex flex-row gap-2 items-center mb-3'>
-          <h1 className='w-24 font-semibold text-gray-700'>Name :</h1>
+        
+        <div className="flex flex-row gap-2 items-center mb-3">
+          <h1 className="w-24 font-semibold text-gray-700">Name :</h1>
 
-          <div className='flex-1'>
+          <div className="flex-1">
             <input
               value={form.name}
               onChange={(e) => handleChangeInput("name", e.target.value)}
-              placeholder='Name'
-              className='w-full border border-gray-300 rounded-lg px-3 py-2 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 transition'
+              placeholder="Name"
+              className="w-full px-3 py-2 rounded-lg
+              bg-white/80 border border-gray-200
+              focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             {errors.name && (
               <p className="text-red-500 text-sm mt-1">{errors.name}</p>
@@ -114,17 +162,18 @@ const AddTeacher = () => {
           </div>
         </div>
 
-        {/* EMAIL */}
-        <div className='flex flex-row gap-2 items-center mb-3'>
-          <h1 className='w-24 font-semibold text-gray-700'>Email :</h1>
+    
+        <div className="flex flex-row gap-2 items-center mb-3">
+          <h1 className="w-24 font-semibold text-gray-700">Email :</h1>
 
-          <div className='flex-1'>
+          <div className="flex-1">
             <input
               value={form.email}
               onChange={(e) => handleChangeInput("email", e.target.value)}
-              placeholder='email'
-              className='w-full border border-gray-300 rounded-lg px-3 py-2 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 transition'
+              placeholder="email"
+              className="w-full px-3 py-2 rounded-lg
+              bg-white/80 border border-gray-200
+              focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -132,17 +181,18 @@ const AddTeacher = () => {
           </div>
         </div>
 
-        {/* PHONE */}
-        <div className='flex flex-row gap-2 items-center mb-3'>
-          <h1 className='w-24 font-semibold text-gray-700'>Phone :</h1>
+      
+        <div className="flex flex-row gap-2 items-center mb-3">
+          <h1 className="w-24 font-semibold text-gray-700">Phone :</h1>
 
-          <div className='flex-1'>
+          <div className="flex-1">
             <input
               value={form.phone}
               onChange={(e) => handleChangeInput("phone", e.target.value)}
-              placeholder='number'
-              className='w-full border border-gray-300 rounded-lg px-3 py-2 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 transition'
+              placeholder="number"
+              className="w-full px-3 py-2 rounded-lg
+              bg-white/80 border border-gray-200
+              focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             {errors.phone && (
               <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
@@ -150,17 +200,18 @@ const AddTeacher = () => {
           </div>
         </div>
 
-        {/* ADDRESS */}
-        <div className='flex flex-row gap-2 items-center mb-4'>
-          <h1 className='w-24 font-semibold text-gray-700'>Address :</h1>
+      
+        <div className="flex flex-row gap-2 items-center mb-4">
+          <h1 className="w-24 font-semibold text-gray-700">Address :</h1>
 
-          <div className='flex-1'>
+          <div className="flex-1">
             <input
               value={form.address}
               onChange={(e) => handleChangeInput("address", e.target.value)}
-              placeholder='address'
-              className='w-full border border-gray-300 rounded-lg px-3 py-2 
-                         focus:outline-none focus:ring-2 focus:ring-blue-500 transition'
+              placeholder="address"
+              className="w-full px-3 py-2 rounded-lg
+              bg-white/80 border border-gray-200
+              focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
             {errors.address && (
               <p className="text-red-500 text-sm mt-1">{errors.address}</p>
@@ -168,12 +219,14 @@ const AddTeacher = () => {
           </div>
         </div>
 
-        {/* BUTTON */}
-        <div className='text-center'>
+  
+        <div className="text-center">
           <button
             onClick={handleChange}
-            className='bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg 
-                       shadow-md hover:bg-blue-700 transition w-full sm:w-auto'
+            className="w-full py-2 rounded-lg
+            bg-indigo-600 hover:bg-indigo-700
+            text-white font-semibold
+            shadow-md transition"
           >
             Add teacher
           </button>
@@ -182,7 +235,9 @@ const AddTeacher = () => {
       </div>
 
     </div>
-  )
+  </div>
+);
+  
 }
 
 export default AddTeacher;

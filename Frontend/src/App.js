@@ -17,6 +17,8 @@ import AddTeacher from "./components/AddTeacher";
 import UpdateTeacher from "./components/UpdateTeacher";
 import ViewTeacher from "./components/ViewTeacher";
 import StudentPage from "./components/StudentPage";
+import ForgetPassword from "./components/ForgetPassword";
+import TeacherPage from "./components/TeacherPage";
 
 
 
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
         element:<AddStudent/>
       },
       {
+        path:"/forget-password",
+        element:<ForgetPassword/>
+      },
+      {
         path:"/view-student",
         element:<ViewStudent/>
       },
@@ -90,6 +96,10 @@ const router = createBrowserRouter([
     {
       path:"/student/:username",
       element:<StudentPage/>
+    },
+    {
+      path:"/teacher/:username",
+      element:<TeacherPage/>
     },
     
     

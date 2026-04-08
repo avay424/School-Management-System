@@ -351,7 +351,7 @@ return res.json({success:true,message:"added teacher "})
 })
 
 app.post("/forget-password", async (req, res) => {
-  const { username, password, newpassword } = req.body;
+  const { username, password, newpassword,confirmpassword} = req.body;
 
   try {
     const result = await pool.query(
@@ -371,9 +371,14 @@ app.post("/forget-password", async (req, res) => {
     if (!match) {
       return res.json({ success: false, message: "Incorrect password" });
     }
+    
+   const hashedPassword = await bcrypt.hash(newpassword, 10);
+   const matchnew = await bcrypt.compare(newpassword, user.newpassword);
 
-
-    const hashedPassword = await bcrypt.hash(newpassword, 10);
+    if (!matchnew) {
+      return res.json({ success: false, message: "check password" });
+    }
+    
     await pool.query(
       "UPDATE users SET password=$1 WHERE username=$2",
       [hashedPassword, username]

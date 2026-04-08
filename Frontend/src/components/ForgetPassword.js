@@ -8,7 +8,8 @@ const ForgetPassword = () => {
   const [form, setForm] = useState({
     username: "",
     password: "",
-    newpassword: ""
+    newpassword: "",
+    confirmpassword:""
   })
 const [showpassword,setShowPassword]=useState(false)
   const [errors, setErrors] = useState({})
@@ -52,6 +53,11 @@ const [showpassword,setShowPassword]=useState(false)
       newErrors.newpassword = "newpassword is required"
     } else if (form.newpassword.length < 5 || form.newpassword.length > 10) {
       newErrors.newpassword = "password must be 5-10 chracterss"
+    }
+     if (!form.confirmpassword.trim()) {
+      newErrors.confirmpassword = "confirmpassword is required"
+    } else if (form.confirmpassword.length < 5 || form.confirmpassword.length > 10) {
+      newErrors.confirmpassword = "incorrect new password"
     }
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -174,6 +180,27 @@ if (data.message === "Incorrect password") {
           </span>
           {errors.newpassword && (
             <p className="text-red-500 text-xs mt-1">{errors.newpassword}</p>
+          )}
+        </div>
+         <div className="mb-6 relative">
+          <input
+            value={form.confirmpassword}
+            type={showpassword?"text":"password"}
+            placeholder='Confirm Password'
+            onChange={(e) => handlechange("confirmpassword", e.target.value)}
+            className="w-full px-4 py-2 rounded-lg
+            bg-white/80 border border-gray-200
+            placeholder-gray-500
+            focus:outline-none focus:ring-2 focus:ring-indigo-400"
+          />
+          <span
+          className='absolute right-5 top-3 text-sm text-indigo-600 cursor-pointer'
+          onClick={()=>setShowPassword(!showpassword)}
+          >
+{showpassword?"Hide":"Show"}
+          </span>
+          {errors.confirmpassword && (
+            <p className="text-red-500 text-xs mt-1">{errors.confirmpassword}</p>
           )}
         </div>
 

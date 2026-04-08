@@ -11,7 +11,7 @@ const Navbar = () => {
       Welcome
     </h1>
 
-    {/* <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-6">
+    {/* { <div className="flex flex-wrap justify-center sm:justify-end gap-3 sm:gap-6">
 
       <Link to="/student" className="relative text-white text-sm sm:text-base font-medium px-2 sm:px-3 py-1 transition duration-300 hover:text-yellow-300 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-300 after:transition-all after:duration-300 hover:after:w-full">
         Student
@@ -19,14 +19,14 @@ const Navbar = () => {
 
       <Link to="/teacher" className="relative text-white text-sm sm:text-base font-medium px-2 sm:px-3 py-1 transition duration-300 hover:text-yellow-300 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-300 after:transition-all after:duration-300 hover:after:w-full">
         Teacher
-      </Link>
+      </Link> */}
 
       <Link to="/admin" className="relative text-white text-sm sm:text-base font-medium px-2 sm:px-3 py-1 transition duration-300 hover:text-yellow-300 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-300 after:transition-all after:duration-300 hover:after:w-full">
         Admin
       </Link>
 
      
-    </div> */}
+    {/* </div> } */}
   </div>
 </nav>
   );

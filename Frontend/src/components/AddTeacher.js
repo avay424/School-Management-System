@@ -44,23 +44,23 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
     if(!form.username.trim()){
-      newErrors.username="username is required"
+      newErrors.username="Username is required"
     }
     if(!form.name.trim()){
-      newErrors.name="name is required"
+      newErrors.name="Name is required"
     }
     if(!form.email.trim()){
-      newErrors.email=" email is required"
+      newErrors.email=" Email is required"
     }else if(!emailPattern.test(form.email)){
       newErrors.email="Invalid email pattern"
     }
     if(!form.phone.trim()){
-      newErrors.phone="phone is required"
+      newErrors.phone="Phone is required"
     }else if(!/^\d{10}$/.test(form.phone)){
       newErrors.phone="Number should be of 10 characters"
     }
     if(!form.address.trim()){
-      newErrors.address="address is required"
+      newErrors.address="Address is required"
     }
     
 
@@ -132,7 +132,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             <input
               value={form.username}
               onChange={(e) => handleChangeInput("username", e.target.value)}
-              placeholder="username"
+              placeholder="Username"
               className="w-full px-3 py-2 rounded-lg
               bg-white/80 border border-gray-200
               focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -170,7 +170,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             <input
               value={form.email}
               onChange={(e) => handleChangeInput("email", e.target.value)}
-              placeholder="email"
+              placeholder="Email"
               className="w-full px-3 py-2 rounded-lg
               bg-white/80 border border-gray-200
               focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -189,7 +189,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             <input
               value={form.phone}
               onChange={(e) => handleChangeInput("phone", e.target.value)}
-              placeholder="number"
+              placeholder="Number"
               className="w-full px-3 py-2 rounded-lg
               bg-white/80 border border-gray-200
               focus:outline-none focus:ring-2 focus:ring-indigo-400"
@@ -208,7 +208,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             <input
               value={form.address}
               onChange={(e) => handleChangeInput("address", e.target.value)}
-              placeholder="address"
+              placeholder="Address"
               className="w-full px-3 py-2 rounded-lg
               bg-white/80 border border-gray-200
               focus:outline-none focus:ring-2 focus:ring-indigo-400"

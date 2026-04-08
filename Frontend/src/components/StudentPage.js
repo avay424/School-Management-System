@@ -86,7 +86,9 @@ const StudentPage = () => {
           </button>
         </nav>
 
-        <button className="flex items-center gap-3 text-red-500/80 p-3 hover:text-red-500 transition mt-auto font-medium">
+        <button
+        onClick={()=>navigate("/")}
+         className="flex items-center gap-3 text-red-500/80 p-3 hover:text-red-500 transition mt-auto font-medium">
           <span>🚪</span> Sign Out
         </button>
       </aside>
@@ -140,20 +142,40 @@ const StudentPage = () => {
             <div className="grid grid-cols-2 gap-y-8 gap-x-4">
               <div>
                 <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Full Name</p>
+                <div className="flex flex-row gap-3">
                 <p className="text-black font-medium">{data.name}</p>
+                <button 
+                onClick={()=>navigate("/update-student")}
+                className="font-bold text-grey">Edit</button>
+                </div>
               </div>
               <div>
                 <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Email</p>
+                <div className="flex flex-row gap-3">
                 <p className="text-black font-medium truncate">{data.email}</p>
+                <button 
+                onClick={()=>navigate("/update-student")}
+                className="font-bold">Edit</button>
+                </div>
               </div>
               <div>
                 <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Phone</p>
+                <div className="flex flex-row gap-3">
                 <p className="text-black font-medium">{data.phone}</p>
+                 <button 
+                onClick={()=>navigate("/update-student")}
+                className="font-bold">Edit</button>
+                </div>
               </div>
               
               <div className="col-span-2">
                 <p className="text-[10px] text-gray-500 uppercase font-black tracking-widest mb-1">Address</p>
+                <div className="flex flex-row gap-3">
                 <p className="text-black font-medium leading-relaxed">{data.address}</p>
+                 <button 
+                onClick={()=>navigate("/update-student")}
+                className="font-bold">Edit</button>
+                </div>
               </div>
             </div>
           </div>

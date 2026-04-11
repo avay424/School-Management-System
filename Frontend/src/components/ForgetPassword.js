@@ -84,11 +84,12 @@ if (data.success) {
   setErrors({}); 
   return navigate("/"); 
 }
-
-if (data.message === "Incorrect password") {
+if (data.message === "Wrong password") {
   setErrors({ password: "Invalid password" });
 } else if (data.message === "No user found") {
   setErrors({ username: "User not found" });
+} else if (data.message === "Passwords do not match") {
+  setErrors({ confirmpassword: "Passwords do not match" });
 } else {
   setErrors({ general: data.message });
 }
@@ -142,7 +143,7 @@ if (data.message === "Incorrect password") {
           <input
             value={form.password}
             type={showpassword?"text":"password"}
-            placeholder='Current Password'
+            placeholder='Password'
             onChange={(e) => handlechange("password", e.target.value)}
             className="w-full px-4 py-2 rounded-lg
             bg-white/80 border border-gray-200

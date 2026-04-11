@@ -18,12 +18,17 @@ const TeacherPage = () => {
 
         const result = await res.json();
 
-        console.log("TEACHER DATA:", result);
+      if(result.success){
+        setData(result.teacher)
+      }else{
+           setData(null);
+      }
 
-        setData(result);
+        
       } catch (err) {
         console.log(err);
-        setData(null);
+         setData(null);
+     
       } finally {
         setLoading(false);
       }

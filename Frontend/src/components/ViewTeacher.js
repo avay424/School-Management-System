@@ -65,7 +65,7 @@ const ViewTeacher= () => {
 
         {filteredTeachers.map((teacher) => (
           <div
-            key={teacher.id}
+            key={teacher.username}
             onClick={() => navigate(`/teacher/${teacher.username}`)}
             className="grid grid-cols-5 bg-white p-3 border border-gray-200 
                        hover:bg-blue-50 hover:shadow-md transition cursor-pointer"

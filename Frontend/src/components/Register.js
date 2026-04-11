@@ -330,11 +330,14 @@ const Register = () => {
     });
 
     const data = await res.json();
+   
+    if (data.success) {
+  alert("Registered successfully");
+  navigate("/");
+} else {
+  alert(data.message);
+}
 
-    if (!data.success) {
-      setErrors({ general: data.message });
-      return;
-    }
 
     navigate("/");
   };

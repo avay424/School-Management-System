@@ -155,6 +155,8 @@ app.post("/set-role", authMiddleware, async (req, res) => {
 
   res.json({ success: true });
 });
+
+
 app.get("/student/:username", async (req, res) => {
     const { username } = req.params;
 
@@ -177,7 +179,7 @@ app.get("/teacher/:username",async(req,res)=>{
 })
 
 app.get("/all-students",async(req,res)=>{
-    const students=await Student.find();
+    const students = await Student.find();
     return res.json({success:true,students})
 })
 

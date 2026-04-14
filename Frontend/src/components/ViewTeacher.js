@@ -18,10 +18,9 @@ const ViewTeacher= () => {
 
     fetchTeachers();
   }, []);
-
-  const filteredTeachers = teachers.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
+const filteredTeachers = teachers.filter((s) =>
+  (s?.name || "").toLowerCase().includes((search || "").toLowerCase())
+);
 
   return (
     <div className="min-h-screen  bg-gradient-to-br from-[#cfe9f6] via-[#e6f4fb] to-[#f8fcff] p-6">
@@ -65,7 +64,7 @@ const ViewTeacher= () => {
 
         {filteredTeachers.map((teacher) => (
           <div
-            key={teacher.username}
+            key={teacher.id}
             onClick={() => navigate(`/teacher/${teacher.username}`)}
             className="grid grid-cols-5 bg-white p-3 border border-gray-200 
                        hover:bg-blue-50 hover:shadow-md transition cursor-pointer"

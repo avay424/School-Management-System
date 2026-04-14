@@ -20,13 +20,12 @@ const ViewStudent= () => {
   }, []);
 
   const filteredStudents = students.filter((s) =>
-    s.name.toLowerCase().includes(search.toLowerCase())
-  );
-
+  (s?.name || "").toLowerCase().includes((search || "").toLowerCase())
+);
   return (
     <div className="min-h-screen  bg-gradient-to-br from-[#cfe9f6] via-[#e6f4fb] to-[#f8fcff] p-6">
 <div className="flex flex-row justify-between">
-      {/* TITLE */}
+    
       <h1 className="text-3xl font-bold mb-6 text-gray-800">
         All Students
       </h1>
@@ -65,7 +64,7 @@ const ViewStudent= () => {
 
         {filteredStudents.map((student) => (
           <div
-            key={student.username}
+            key={student.id}
             onClick={() => navigate(`/student/${student.username}`)}
             className="grid grid-cols-5 bg-white p-3 border border-gray-200 
                        hover:bg-blue-50 hover:shadow-md transition cursor-pointer"
